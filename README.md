@@ -6,5 +6,9 @@
 - **When?** 2017
 - **Where?** [University of Amsterdam](http://www.uva.nl/home)
 
+## Developers
+- Maaike Koolbergen
+- Marc Vornetran
+
 ## License
 [MIT](https://github.com/marc1404/quora-question-pairs/blob/master/LICENSE)
