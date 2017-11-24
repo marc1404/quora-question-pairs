@@ -103,3 +103,4 @@ ENV/
 # Custom
 .DS_Store
 .idea/
+*.bin.gz
