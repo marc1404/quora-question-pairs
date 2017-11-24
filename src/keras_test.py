@@ -12,4 +12,4 @@ model.compile(
     metrics=['accuracy']
 )
 
-print('Everything seems to be fine :)')
+print('Everything seems to be fine :)))')
