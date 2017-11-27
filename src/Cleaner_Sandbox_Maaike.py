@@ -1,13 +1,16 @@
 import pandas as pd
+import re
 import nltk
 from nltk.corpus import stopwords
+import gensim
 from gensim.models import KeyedVectors
-import re
+
 
 # load training and test data sets
 train_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\train_data.csv")
 test_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\test_data.csv")
 embedding_file = (r"C:\Users\Maaik\quora-question-pairs\GoogleNews-vectors-negative300.bin.gz")
+
 
 stops = set(stopwords.words('english'))
 
@@ -15,7 +18,9 @@ stops = set(stopwords.words('english'))
 def text_to_word_list(text):
     # pre process and convert text into a list of words
     text = str(text)
-    text = text.lower
+    text = text.lower()
+    
+
     # Let's start scrubbing the text ;D and do a little bit of stemming
     text = re.sub(r"[^A-Za-z0-9]", " ", text)
     text = re.sub(r"what's", "what is ", text)
