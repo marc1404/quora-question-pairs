@@ -8,7 +8,7 @@ trainmerge_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\train_dat
 print('Total number of question pairs for training: {}'.format(len(train_df)))
 
 #%%
-train_df.head()
+trainmerge_df.head()
 
 #%%
 print('Duplicate pairs: {}%'.format(round(trainmerge_df['is_duplicate'].mean()*100, 2)))
