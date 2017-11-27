@@ -18,8 +18,12 @@ from keras.layers import Input, Embedding, LSTM, Merge
 from keras.optimizers import Adadelta
 from keras.callbacks import ModelCheckpoint
 
-train_df = pd.read_csv('data/train_vector.csv')
-test_df = pd.read_csv('data/test_vector.csv')
+import src.util.csv as csv
+
+question_columns = ['question1', 'question2']
+
+train_df = csv.parse('data/train_vector.csv', question_columns)
+test_df = csv.parse('data/test_vector.csv', question_columns)
 
 # time for preparing and validation of the data
 
@@ -39,7 +43,6 @@ validation_size = 40000
 training_size = len(train_df) - validation_size
 print('training size: {}' .format(training_size))
 
-question_columns = ['question1', 'question2']
 
 X = train_df[question_columns]
 Y = train_df['is_duplicate']
