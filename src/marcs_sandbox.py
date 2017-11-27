@@ -14,7 +14,7 @@ test_df.head()
 
 question_columns = ['question1', 'question2']
 
-#question_to_vector.use_word2vec()
+# question_to_vector.use_word2vec()
 # %%
 
 total_rows = train_df.shape[0] + test_df.shape[0]
