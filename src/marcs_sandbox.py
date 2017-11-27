@@ -1,10 +1,10 @@
 import pandas as pd
-from gensim.models import KeyedVectors
 from nltk.corpus import stopwords
 import src.train_data as train_data
+import src.word2vec as word2vec
 
 train_df = train_data.load()
-test_df = pd.read_csv('data/train_data.csv')
+test_df = pd.read_csv('data/test_data.csv')
 
 train_df.head()
 # %%
@@ -22,10 +22,9 @@ def text_to_words(text):
 word_to_index = dict()
 index_to_word = ['<unknown>']
 question_columns = ['question1', 'question2']
-word2vec = KeyedVectors.load_word2vec_format('GoogleNews-vectors-negative300.bin.gz', binary=True)
 stops = set(stopwords.words('english'))
 
-print('Done loading word2vec')
+word2vec.load()
 # %%
 
 for data in [train_df, test_df]:
@@ -36,7 +35,7 @@ for data in [train_df, test_df]:
             question_as_vector = []
 
             for word in words:
-                if word in stops and word not in word2vec.vocab:
+                if word in stops and not word2vec.is_in_vocabulary(word):
                     continue
 
                 if word not in word_to_index:
