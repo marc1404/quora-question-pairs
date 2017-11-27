@@ -4,10 +4,13 @@ import nltk
 from nltk.corpus import stopwords
 import gensim
 from gensim.models import KeyedVectors
+import numpy as np
+from keras.models import Model
+from keras.layers import Embedding
 
 
 # load training and test data sets
-train_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\train_data.csv")
+train_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\train_data_merge.csv")
 test_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\test_data.csv")
 embedding_file = (r"C:\Users\Maaik\quora-question-pairs\GoogleNews-vectors-negative300.bin.gz")
 
@@ -19,7 +22,7 @@ def text_to_word_list(text):
     # pre process and convert text into a list of words
     text = str(text)
     text = text.lower()
-    
+
 
     # Let's start scrubbing the text ;D and do a little bit of stemming
     text = re.sub(r"[^A-Za-z0-9]", " ", text)
@@ -92,6 +95,17 @@ for dataset in [train_df, test_df]:
             # replaces questions with lists of word indices = number representation:
             dataset.set_value(index, question_column, question_as_vector)
 
+# %%
+embedding_dim = 300
+embeddings = 1 * np.random.randn(len(word_to_index) + 1, embedding_dim) # this will be the embedding matrix
+embeddings[0] = 0 # so that the padding will be ignored
+
+# build the embedding matrix
+for word, index in word_to_index.items():
+    if word in word2vec.vocab:
+        embeddings[index] = word2vec.word_vec(word)
+
+del word2vec
 
 # try out pandas and see if I can get the first 5 from both
 
