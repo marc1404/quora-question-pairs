@@ -1,8 +1,9 @@
 import pandas as pd
 from gensim.models import KeyedVectors
 from nltk.corpus import stopwords
+import src.train_data as train_data
 
-train_df = pd.read_csv('data/test_data.csv')
+train_df = train_data.load()
 test_df = pd.read_csv('data/train_data.csv')
 
 train_df.head()
