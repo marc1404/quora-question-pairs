@@ -1,6 +1,7 @@
 import pandas as pd
 import src.train_data as train_data
 import src.question_to_vector as question_to_vector
+import src.timer as timer
 
 train_df = train_data.load()
 test_df = pd.read_csv('data/test_data.csv')
@@ -20,6 +21,7 @@ total_rows = train_df.shape[0] + test_df.shape[0]
 current_row = 0
 percent = 0
 
+timer.start('vectorize')
 print('0%', end='\r')
 
 for data in [train_df, test_df]:
@@ -38,6 +40,8 @@ for data in [train_df, test_df]:
             print(str(new_percent) + '%', end='\r')
 
         percent = new_percent
+
+timer.end('vectorize')
 # %%
 
 train_df.head()
