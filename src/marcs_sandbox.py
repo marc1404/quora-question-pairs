@@ -1,7 +1,6 @@
 import pandas as pd
-from nltk.corpus import stopwords
 import src.train_data as train_data
-import src.word2vec as word2vec
+import src.question_to_vector as question_to_vector
 
 train_df = train_data.load()
 test_df = pd.read_csv('data/test_data.csv')
@@ -12,39 +11,34 @@ train_df.head()
 test_df.head()
 # %%
 
-
-def text_to_words(text):
-    text = str(text)
-    text = text.lower()
-    return text.split()
-
-
-word_to_index = dict()
-index_to_word = ['<unknown>']
 question_columns = ['question1', 'question2']
-stops = set(stopwords.words('english'))
 
-word2vec.load()
+#question_to_vector.use_word2vec()
 # %%
+
+total_rows = train_df.shape[0] + test_df.shape[0]
+current_row = 0
+percent = 0
+
+print('0%', end='\r')
 
 for data in [train_df, test_df]:
     for index, row in data.iterrows():
         for question_column in question_columns:
             question = row[question_column]
-            words = text_to_words(question)
-            question_as_vector = []
+            vector = question_to_vector.transform(question)
 
-            for word in words:
-                if word in stops and not word2vec.is_in_vocabulary(word):
-                    continue
+            data.set_value(index, question_column, vector)
 
-                if word not in word_to_index:
-                    word_to_index[word] = len(index_to_word)
-                    index_to_word.append(word)
+        current_row += 1
+        progress = current_row / total_rows
+        new_percent = (int)(progress * 100)
 
-                question_as_vector.append(word_to_index[word])
+        if new_percent > percent:
+            print(str(new_percent) + '%', end='\r')
 
-            data.set_value(index, question_column, question_as_vector)
+        percent = new_percent
+# %%
 
 train_df.head()
 # %%

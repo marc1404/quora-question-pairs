@@ -15,5 +15,5 @@ def load():
     timer.end('word2vec')
 
 
-def is_in_vocabulary(word):
+def in_vocabulary(word):
     return word in word2vec.vocab
