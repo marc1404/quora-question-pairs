@@ -1,7 +1,7 @@
 import pandas as pd
 import src.train_data as train_data
 import src.question_to_vector as question_to_vector
-import src.timer as timer
+import src.util.timer as timer
 
 train_df = train_data.load()
 test_df = pd.read_csv('data/test_data.csv')

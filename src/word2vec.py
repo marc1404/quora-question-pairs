@@ -1,5 +1,5 @@
 from gensim.models import KeyedVectors
-import src.timer as timer
+import src.util.timer as timer
 
 vectors_path = 'GoogleNews-vectors-negative300.bin.gz'
 word2vec = None
