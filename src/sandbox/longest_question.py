@@ -1,4 +1,4 @@
-import src.csv as csv
+import src.util.csv as csv
 
 columns = ['question1', 'question2']
 train_df = csv.parse('data/train_vector.csv', columns)
