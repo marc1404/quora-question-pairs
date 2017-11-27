@@ -1,22 +1,9 @@
 import pandas as pd
 import re
-import nltk
 from nltk.corpus import stopwords
-import gensim
 from gensim.models import KeyedVectors
 import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-import itertools
-import datetime
-
-from keras.preprocessing.sequence import pad_sequences
-from keras.models import Model
-from keras.layers import Input, Embedding, LSTM, Merge
-import keras.backend as K
-from keras.optimizers import Adadelta
-from keras.callbacks import ModelCheckpoint
+from keras.layers import Embedding
 
 
 # load training and test data sets
