@@ -5,14 +5,24 @@ from nltk.corpus import stopwords
 import gensim
 from gensim.models import KeyedVectors
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+import itertools
+import datetime
+
+from keras.preprocessing.sequence import pad_sequences
 from keras.models import Model
-from keras.layers import Embedding
+from keras.layers import Input, Embedding, LSTM, Merge
+import keras.backend as K
+from keras.optimizers import Adadelta
+from keras.callbacks import ModelCheckpoint
 
 
 # load training and test data sets
-train_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\train_data_merge.csv")
-test_df = pd.read_csv(r"C:\Users\Maaik\quora-question-pairs\data\test_data.csv")
-embedding_file = (r"C:\Users\Maaik\quora-question-pairs\GoogleNews-vectors-negative300.bin.gz")
+train_df = pd.read_csv('data/train_data_merge.csv')
+test_df = pd.read_csv('data/test_data.csv')
+embedding_file = ('GoogleNews-vectors-negative300.bin.gz')
 
 
 stops = set(stopwords.words('english'))
@@ -107,9 +117,5 @@ for word, index in word_to_index.items():
 
 del word2vec
 
-# try out pandas and see if I can get the first 5 from both
-
-# %%
-train_df.head()
-# %%
-test_df.head()
+train_df.to_csv('data/train_vector.csv')
+test_df.to_csv('data/test_vector.csv')
