@@ -4,6 +4,7 @@ from nltk.corpus import stopwords
 from gensim.models import KeyedVectors
 import numpy as np
 from keras.layers import Embedding
+import os
 
 
 # load training and test data sets
@@ -58,12 +59,9 @@ def text_to_word_list(text):
 
 # this is going to be our vocabulary, we will give it a word and it will give us the index
 word_to_index = dict()
-index_to_word = []
+index_to_word = ['<unk>']
 question_columns = ['question1', 'question2']
 
-inverse_vocabulary = ['<unk>']
-# '<unk>' will never be used, it is only a placeholder for the [0, 0, ....0] embedding
-# because if you substract 0 from anything it will stay the same and there is no use for that later
 
 #embedding
 word2vec = KeyedVectors.load_word2vec_format(embedding_file, binary=True)
@@ -103,6 +101,9 @@ for word, index in word_to_index.items():
         embeddings[index] = word2vec.word_vec(word)
 
 del word2vec
+
+# os.remove('data/train_vector.csv')
+# os.remove('data/test_vector.csv')
 
 train_df.to_csv('data/train_vector.csv')
 test_df.to_csv('data/test_vector.csv')
