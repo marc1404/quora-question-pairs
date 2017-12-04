@@ -19,11 +19,11 @@ stops = set(stopwords.words('english'))
 def text_to_word_list(text):
     # pre process and convert text into a list of words
     text = str(text)
-    text = text.lower()
+    text = text.lower() # convert words to lower case
 
 
     # Let's start scrubbing the text ;D and do a little bit of stemming
-    text = re.sub(r"[^A-Za-z0-9]", " ", text)
+    text = re.sub(r"[^A-Za-z0-9]", " ", text) # = Remove non-letters
     text = re.sub(r"what's", "what is ", text)
     text = re.sub(r"\'s", " ", text) # removes 's from words
     text = re.sub(r"\'ve", " have ", text) # changes the ending of words 've into: <blank space> have
