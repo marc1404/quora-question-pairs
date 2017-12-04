@@ -8,7 +8,6 @@ import numpy as np
 import src.util.csv as csv
 import src.longest_question as longest_question
 import pandas as pd
-import matplotlib.pyplot as plt
 
 
 def zero_padding(sequences, max_length, padding='post'):
@@ -84,25 +83,4 @@ submission_df.to_csv('data/submission.csv')
 # %%
 
 plot_model(model, to_file='model.png', show_shapes=True)
-# %%
-
-print(history.history.keys())
-# %%
-
-plt.plot(history.history['acc'])
-plt.plot(history.history['val_acc'])
-plt.title('model accuracy')
-plt.ylabel('accuracy')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
-# %%
-
-plt.plot(history.history['loss'])
-plt.plot(history.history['val_loss'])
-plt.title('model loss')
-plt.ylabel('loss')
-plt.xlabel('epoch')
-plt.legend(['train', 'test'], loc='upper left')
-plt.show()
 # %%
