@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 import src.util.csv as csv
 import src.longest_question as longest_question
+import pandas as pd
 
 
 def zero_padding(sequences, max_length):
@@ -63,8 +64,6 @@ rounded = [int(round(x[0])) for x in predictions]
 
 print(rounded)
 # %%
-
-import pandas as pd
 
 submission_df = pd.DataFrame(index=test_df.test_id, columns=['is_duplicate'], dtype=np.uint)
 submission_df.index.name = 'test_id'
