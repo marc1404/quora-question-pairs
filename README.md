@@ -1,4 +1,8 @@
 # Quora Question Pairs
+
+[![forthebadge](http://forthebadge.com/images/badges/made-with-python.svg)](http://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/gluten-free.svg)](http://forthebadge.com)
+
 > Can you identify question pairs that have the same intent?
 
 ## Quick Facts
