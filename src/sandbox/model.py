@@ -41,6 +41,9 @@ X_predict = np.concatenate((test_questions1, test_questions2), axis=1)
 print(X_predict.shape)
 # %%
 
+X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.2)
+# %%
+
 model = Sequential()
 
 model.add(Dense(64, input_dim=longest * 2, activation='relu'))
@@ -52,7 +55,12 @@ model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-model.fit(X, y, epochs=3, batch_size=32, validation_split=0.2)
+model.fit(X_train, y_train, epochs=3, batch_size=32)
+# %%
+
+evaluation = model.evaluate(X_validation, y_validation, batch_size=32)
+
+print(evaluation)
 # %%
 
 predictions = model.predict(X_predict, verbose=1)
