@@ -1,15 +1,18 @@
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.callbacks import EarlyStopping
+from keras.utils import plot_model
 from sklearn.model_selection import train_test_split
 import numpy as np
 import src.util.csv as csv
 import src.longest_question as longest_question
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
-def zero_padding(sequences, max_length):
-    return pad_sequences(sequences, maxlen=max_length, padding='post')
+def zero_padding(sequences, max_length, padding='post'):
+    return pad_sequences(sequences, maxlen=max_length, padding=padding)
 
 
 columns = ['question1', 'question2']
@@ -21,11 +24,11 @@ print(len(train_df))
 
 longest = longest_question.find(train_df, test_df)
 
-questions1 = zero_padding(train_df.question1, longest)
-questions2 = zero_padding(train_df.question2, longest)
+questions1 = zero_padding(train_df.question1, longest, padding='pre')
+questions2 = zero_padding(train_df.question2, longest, padding='post')
 
-test_questions1 = zero_padding(test_df.question1, longest)
-test_questions2 = zero_padding(test_df.question2, longest)
+test_questions1 = zero_padding(test_df.question1, longest, padding='pre')
+test_questions2 = zero_padding(test_df.question2, longest, padding='post')
 
 print(longest)
 # %%
@@ -41,7 +44,7 @@ X_predict = np.concatenate((test_questions1, test_questions2), axis=1)
 print(X_predict.shape)
 # %%
 
-X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.2)
+X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.1)
 # %%
 
 model = Sequential()
@@ -55,7 +58,7 @@ model.add(Dense(1, activation='sigmoid'))
 
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-model.fit(X_train, y_train, epochs=3, batch_size=32)
+history = model.fit(X_train, y_train, epochs=3, batch_size=32, callbacks=[EarlyStopping(monitor='loss')])
 # %%
 
 evaluation = model.evaluate(X_validation, y_validation, batch_size=32)
@@ -78,4 +81,28 @@ submission_df.index.name = 'test_id'
 submission_df.is_duplicate = rounded
 
 submission_df.to_csv('data/submission.csv')
+# %%
+
+plot_model(model, to_file='model.png', show_shapes=True)
+# %%
+
+print(history.history.keys())
+# %%
+
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.title('model accuracy')
+plt.ylabel('accuracy')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
+# %%
+
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('model loss')
+plt.ylabel('loss')
+plt.xlabel('epoch')
+plt.legend(['train', 'test'], loc='upper left')
+plt.show()
 # %%
