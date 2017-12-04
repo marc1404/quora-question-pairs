@@ -9,7 +9,7 @@ index_to_word = ['<unknown>']
 
 
 def use_word2vec():
-    global n_vocabulary
+    global in_vocabulary
 
     word2vec.load()
 
