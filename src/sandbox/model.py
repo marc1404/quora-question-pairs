@@ -1,11 +1,12 @@
 from keras.preprocessing.sequence import pad_sequences
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.callbacks import EarlyStopping
 from sklearn.model_selection import train_test_split
 import numpy as np
 import src.util.csv as csv
 import src.longest_question as longest_question
-import pandas as pd
+from src.util.create_submission import create_submission
 
 
 def zero_padding(sequences, max_length):
@@ -41,7 +42,7 @@ X_predict = np.concatenate((test_questions1, test_questions2), axis=1)
 print(X_predict.shape)
 # %%
 
-X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.2)
+# X_train, X_validation, y_train, y_validation = train_test_split(X, y, test_size=0.1)
 # %%
 
 model = Sequential()
@@ -53,29 +54,15 @@ model.add(Dense(16, activation='relu'))
 model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer='adadelta', metrics=['accuracy'])
 
-model.fit(X_train, y_train, epochs=3, batch_size=32)
+history = model.fit(X, y, epochs=3, batch_size=32, validation_split=0.1, callbacks=[EarlyStopping(monitor='val_loss')])
 # %%
 
-evaluation = model.evaluate(X_validation, y_validation, batch_size=32)
+# evaluation = model.evaluate(X_validation, y_validation, batch_size=32)
 
-print(evaluation)
+# print(evaluation)
 # %%
 
-predictions = model.predict(X_predict, verbose=1)
-
-print(predictions)
-# %%
-
-rounded = [int(round(x[0])) for x in predictions]
-
-print(rounded)
-# %%
-
-submission_df = pd.DataFrame(index=test_df.test_id, columns=['is_duplicate'], dtype=np.uint)
-submission_df.index.name = 'test_id'
-submission_df.is_duplicate = rounded
-
-submission_df.to_csv('data/submission.csv')
+create_submission(model, X_predict)
 # %%

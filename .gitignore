@@ -104,3 +104,6 @@ ENV/
 .DS_Store
 .idea/
 *.bin.gz
+*.zip
+embeddings/*
+!embeddings/.gitkeep
