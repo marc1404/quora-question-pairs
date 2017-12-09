@@ -7,11 +7,22 @@ from keras.layers import Embedding
 import os
 
 
+
+# %%
 # load training and test data sets
-train_df = pd.read_csv('data/train_data_merge.csv')
+train_df = pd.read_csv('data/train_data.csv')
 test_df = pd.read_csv('data/test_data.csv')
+train_labels_df = pd.read_csv('data/train_labels.csv')
 embedding_file = ('GoogleNews-vectors-negative300.bin.gz')
 
+del train_df['id']
+del train_df['is_duplicate']
+del train_labels_df['id']
+del test_df['test_id']
+
+train_df = train_df.join(train_labels_df)
+
+# %%
 
 stops = set(stopwords.words('english'))
 
@@ -19,11 +30,11 @@ stops = set(stopwords.words('english'))
 def text_to_word_list(text):
     # pre process and convert text into a list of words
     text = str(text)
-    text = text.lower()
+    text = text.lower() # convert words to lower case
 
 
     # Let's start scrubbing the text ;D and do a little bit of stemming
-    text = re.sub(r"[^A-Za-z0-9]", " ", text)
+    text = re.sub(r"[^A-Za-z0-9]", " ", text) # = Remove non-letters
     text = re.sub(r"what's", "what is ", text)
     text = re.sub(r"\'s", " ", text) # removes 's from words
     text = re.sub(r"\'ve", " have ", text) # changes the ending of words 've into: <blank space> have
@@ -67,6 +78,7 @@ question_columns = ['question1', 'question2']
 word2vec = KeyedVectors.load_word2vec_format(embedding_file, binary=True)
 # %%
 print('Done loading word2vec')
+
 # iterate over the questions only of both training and test dataset
 for dataset in [train_df, test_df]:
     for index, row in dataset.iterrows():
