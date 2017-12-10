@@ -12,12 +12,13 @@ import matplotlib.pyplot as plt
 
 
 def zero_padding(sequences, max_length):
-    return pad_sequences(sequences, maxlen=max_length, padding='post')
+    return pad_sequences(sequences, maxlen=max_length)
 
 
 columns = ['question1', 'question2']
 train_df = csv.parse('data/train_vector.csv', columns)
 test_df = csv.parse('data/test_vector.csv', columns)
+train_df = train_df.head(10000)
 # %%
 
 embeddings = pickle_rick.load('data/embeddings.pckl')
@@ -33,6 +34,8 @@ questions2 = zero_padding(train_df.question2, longest)
 
 test_questions1 = zero_padding(test_df.question1, longest)
 test_questions2 = zero_padding(test_df.question2, longest)
+
+print('Done with zero padding')
 # %%
 
 X = {
@@ -50,7 +53,7 @@ Y = train_df.is_duplicate.values
 n_hidden = 50
 gradient_clipping_norm = 1.25
 batch_size = 32
-n_epoch = 25
+n_epoch = 1
 embedding_dim = 300
 validation_split = 0.1
 early_stopping = EarlyStopping(monitor='val_loss', patience=1, mode='auto')
