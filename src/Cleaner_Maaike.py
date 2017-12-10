@@ -5,7 +5,7 @@ from gensim.models import KeyedVectors
 import numpy as np
 from keras.layers import Embedding
 import os
-
+import src.util.pickle_rick as pickle_rick
 
 
 # %%
@@ -13,7 +13,7 @@ import os
 train_df = pd.read_csv('data/train_data.csv')
 test_df = pd.read_csv('data/test_data.csv')
 train_labels_df = pd.read_csv('data/train_labels.csv')
-embedding_file = ('GoogleNews-vectors-negative300.bin.gz')
+embedding_file = ('embeddings/GoogleNews-vectors-negative300.bin.gz')
 
 del train_df['id']
 del train_df['is_duplicate']
@@ -119,3 +119,4 @@ del word2vec
 
 train_df.to_csv('data/train_vector.csv')
 test_df.to_csv('data/test_vector.csv')
+pickle_rick.dump(embeddings, 'data/embeddings.pckl')

@@ -2,7 +2,6 @@ from keras.preprocessing.sequence import pad_sequences
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.callbacks import EarlyStopping
-from sklearn.model_selection import train_test_split
 import numpy as np
 import src.util.csv as csv
 import src.longest_question as longest_question
