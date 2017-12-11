@@ -53,7 +53,7 @@ Y = train_df.is_duplicate.values
 n_hidden = 50
 gradient_clipping_norm = 1.25
 batch_size = 32
-n_epoch = 5
+n_epoch = 12
 embedding_dim = 300
 validation_split = 0.1
 early_stopping = EarlyStopping(monitor='val_loss', patience=1, mode='auto')
