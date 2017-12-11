@@ -18,7 +18,7 @@ def zero_padding(sequences, max_length):
 columns = ['question1', 'question2']
 train_df = csv.parse('data/train_vector.csv', columns)
 test_df = csv.parse('data/test_vector.csv', columns)
-# train_df = train_df.head(2000)
+# train_df = train_df.head(5000)
 # %%
 
 embeddings = pickle_rick.load('data/embeddings.pckl')
@@ -53,7 +53,7 @@ Y = train_df.is_duplicate.values
 n_hidden = 50
 gradient_clipping_norm = 1.25
 batch_size = 32
-n_epoch = 3
+n_epoch = 5
 embedding_dim = 300
 validation_split = 0.1
 early_stopping = EarlyStopping(monitor='val_loss', patience=1, mode='auto')
@@ -93,6 +93,7 @@ plt.title('Model Accuracy')
 plt.ylabel('Accuracy')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Validation'], loc='upper left')
+plt.savefig('output/ma_lstm_accuracy.svg')
 plt.show()
 # %%
 
@@ -102,6 +103,7 @@ plt.title('Model Loss')
 plt.ylabel('Loss')
 plt.xlabel('Epoch')
 plt.legend(['Train', 'Validation'], loc='upper right')
+plt.savefig('output/ma_lstm_loss.svg')
 plt.show()
 # %%
 
