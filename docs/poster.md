@@ -46,6 +46,11 @@ We use early stopping on the validation loss metric to avoid overfitting.
 - Manhattan distance is calculated between these vectors
 - Early stopping on validation loss
 
+## Interesting Findings
+- We tested pre, post and mirrored zero padding for the dense model without noticing any difference in performance
+- However, the Sia MaLSTM performs best with pre-zero padding, any other configuration leads to a far worse result
+- The simple dense model converges surprisingly fast (even with CPU training)
+
 ## Technical Info
 We could optionally include this info to show that we invested time in thinking about development and training of our NN.  
 The technical training info is a little bit more interesting than the development info.  
