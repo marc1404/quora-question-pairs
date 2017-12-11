@@ -1,6 +1,8 @@
 # Poster
 
-## Cleaning
+## Data Analysis
+- Total number of question pairs for training: 323164
+- Duplicate pairs: 36.88%
 
 ## Feature Extraction
 - word2vec
