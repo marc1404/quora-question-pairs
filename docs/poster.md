@@ -5,6 +5,9 @@
 ## Feature Extraction
 - word2vec
 - Google News Embedding
+- Once we have the vector representations:
+  - Find the longest question
+  - Use zero padding to normalise question length
 
 ## Training & Validation
 **Validation Split:**  
@@ -25,6 +28,23 @@ Both functions lead to similar good results in our case.
 
 **Early stopping:**  
 We use early stopping on the validation loss metric to avoid overfitting.
+
+## Dense Concatenation
+- Evaluated the simplest model we could think of
+- Inspired by the blog post of Quora engineers about their first approaches
+- Process:
+  - Take vector representation of both questions and concatenate them
+  - Feed this single representation into a fully connected dense network
+- Goal: Network learns what a single network of similar questions looks like
+- Best accuracy ~0.7
+- Any dropout or regularisation layer decreased performance
+- Early stopping on validation accuracy
+
+## Siamese Manhattan LSTM
+- Each the embedding layers and the LSTM layers share the same weights
+- LSTMs output a 50-dimensional similarity vector
+- Manhattan distance is calculated between these vectors
+- Early stopping on validation loss
 
 ## Technical Info
 We could optionally include this info to show that we invested time in thinking about development and training of our NN.  
