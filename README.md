@@ -5,6 +5,8 @@
 
 > Can you identify question pairs that have the same intent?
 
+**Best Kaggle Score:** `0.8112` with 16 submissions
+
 ## Quick Facts
 - **Course:** Applied Machine Learning
 - **When?** 2017
